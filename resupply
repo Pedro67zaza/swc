@@ -1,0 +1,106 @@
+
+/**
+ * Write a description of class Resupply here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
+ */
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.ArrayList;
+
+public class Resupply implements ActionListener
+{
+    private JFrame resupplyFrame;
+    private JTextField txtProductName, txtQuantity;
+    private JLabel lblProductName, lblQuantity;
+    private JButton btnEnter, btnContinue;
+    private JPanel txtPanel, btnPanel;
+    private String name;
+    private int quantity;
+    private ArrayList<Resupply> resupplies;
+
+    public Resupply(){
+        resupplyFrame = new JFrame();
+        resupplyFrame.setTitle("Resupply Stocks");
+        resupplyFrame.setSize(500,500);
+        resupplyFrame.setLayout(new BorderLayout());
+
+        lblProductName = new JLabel("Enter the product name:");
+        lblQuantity = new JLabel("Enter the quantity:");
+
+        txtProductName = new JTextField(15);
+        txtQuantity = new JTextField(15);
+
+        btnEnter = new JButton("Enter");
+        btnContinue = new JButton("Continue");
+
+        btnEnter.addActionListener(this);
+        btnContinue.addActionListener(this);
+
+        txtPanel = new JPanel();
+        txtPanel.add(lblProductName);
+        txtPanel.add(txtProductName);
+        txtPanel.add(lblQuantity);
+        txtPanel.add(txtQuantity);
+
+        btnPanel = new JPanel();
+        btnPanel.add(btnEnter);
+        btnPanel.add(btnContinue);
+
+        resupplyFrame.add(txtPanel, BorderLayout.NORTH);
+        resupplyFrame.add(btnPanel, BorderLayout.CENTER);
+
+        resupplyFrame.setVisible(true);
+        resupplyFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public Resupply(String name, int quantity){
+        this.name = name;
+        this.quantity = quantity;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public int getQuantity(){
+        return quantity;
+    }
+
+    public void actionPerformed(ActionEvent e){
+        if (e.getSource() == btnEnter) {
+            try {
+                String name = txtProductName.getText();
+                int quantity = Integer.parseInt(txtQuantity.getText());
+
+                Resupply[] resupplies = new Resupply[2];
+
+                for (int i = 0; i < resupplies.length; i++) {
+                    resupplies[i] = new Resupply(name, quantity);
+                    txtProductName.setText("");
+                    txtQuantity.setText("");
+                }
+                for(Resupply resupply : resupplies)
+                {
+                    System.out.println(name);
+                    System.out.println(quantity);
+                }
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(resupplyFrame, "Please enter a valid quantity.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else if (e.getSource() == btnContinue) {
+            for (Resupply resupply : resupplies) {
+                System.out.println(resupply.getName());
+                System.out.println(resupply.getQuantity());
+            }
+        }
+    }
+
+    public static void main(String[]args){
+        Resupply resupply = new Resupply();
+    }
+}
